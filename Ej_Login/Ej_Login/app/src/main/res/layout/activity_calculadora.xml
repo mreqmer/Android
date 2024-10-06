@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Calculadora">
+
+    <TextView
+        android:id="@+id/txtRes"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:text="Resultado"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/editFactor2"
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="@+id/editFactor2"
+        app:layout_constraintTop_toBottomOf="@+id/editFactor2" />
+
+    <TextView
+        android:id="@+id/txtPrimerFactor"
+        android:layout_width="115dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="60dp"
+        android:text="Primer Factor"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtBienvenida"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="@+id/txtBienvenida"
+        app:layout_constraintTop_toBottomOf="@+id/txtBienvenida" />
+
+    <EditText
+        android:id="@+id/editFactor1"
+        android:layout_width="239dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="1dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtPrimerFactor"
+        app:layout_constraintStart_toStartOf="@+id/txtPrimerFactor"
+        app:layout_constraintTop_toBottomOf="@+id/txtPrimerFactor" />
+
+    <TextView
+        android:id="@+id/txtRes"
+        android:layout_width="376dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="268dp"
+        android:text="0.0"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtBienvenida"
+        app:layout_constraintStart_toStartOf="@+id/txtBienvenida"
+        app:layout_constraintTop_toBottomOf="@+id/txtBienvenida" />
+
+    <TextView
+        android:id="@+id/txtSegundoFactor"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text="Segundo Factor"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/editFactor1"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="@+id/editFactor1"
+        app:layout_constraintTop_toBottomOf="@+id/editFactor1" />
+
+    <EditText
+        android:id="@+id/editFactor2"
+        android:layout_width="239dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtSegundoFactor"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="@+id/txtSegundoFactor"
+        app:layout_constraintTop_toBottomOf="@+id/txtSegundoFactor" />
+
+    <TextView
+        android:id="@+id/txtBienvenida"
+        android:layout_width="374dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="112dp"
+        android:text="Bienvenido/a "
+        android:textAlignment="center"
+        android:textColor="#7E00FF"
+        android:textColorLink="#8614FA"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
