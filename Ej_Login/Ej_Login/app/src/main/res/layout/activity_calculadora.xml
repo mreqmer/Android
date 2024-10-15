@@ -9,6 +9,19 @@
 
     <TextView
         android:id="@+id/txtRes"
+        android:layout_width="352dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="260dp"
+        android:text="0.0"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtBienvenida"
+        app:layout_constraintHorizontal_bias="0.227"
+        app:layout_constraintStart_toStartOf="@+id/txtBienvenida"
+        app:layout_constraintTop_toBottomOf="@+id/txtBienvenida" />
+
+    <TextView
+        android:id="@+id/txtRes1"
         android:layout_width="150dp"
         android:layout_height="30dp"
         android:layout_marginTop="4dp"
@@ -46,18 +59,6 @@
         app:layout_constraintEnd_toEndOf="@+id/txtPrimerFactor"
         app:layout_constraintStart_toStartOf="@+id/txtPrimerFactor"
         app:layout_constraintTop_toBottomOf="@+id/txtPrimerFactor" />
-
-    <TextView
-        android:id="@+id/txtRes"
-        android:layout_width="376dp"
-        android:layout_height="67dp"
-        android:layout_marginTop="268dp"
-        android:text="0.0"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="@+id/txtBienvenida"
-        app:layout_constraintStart_toStartOf="@+id/txtBienvenida"
-        app:layout_constraintTop_toBottomOf="@+id/txtBienvenida" />
 
     <TextView
         android:id="@+id/txtSegundoFactor"
@@ -101,40 +102,65 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnMas4"
+        android:id="@+id/btnDivide"
         android:layout_width="70dp"
         android:layout_height="54dp"
-        android:text="*"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="#673AB7"
+        android:text="/"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
-        app:layout_constraintStart_toEndOf="@+id/btnMas3"
-        tools:layout_editor_absoluteY="633dp" />
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toEndOf="@+id/btnMultiplica" />
 
     <Button
         android:id="@+id/btnMas"
         android:layout_width="70dp"
         android:layout_height="54dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="#673AB7"
         android:text="+"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="633dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnMas3"
+        android:id="@+id/btnMultiplica"
         android:layout_width="70dp"
         android:layout_height="54dp"
         android:layout_marginStart="24dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="#673AB7"
         android:text="*"
-        app:layout_constraintStart_toEndOf="@+id/btnMas2"
-        tools:layout_editor_absoluteY="633dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnResta" />
 
     <Button
-        android:id="@+id/btnMas2"
+        android:id="@+id/btnResta"
         android:layout_width="70dp"
         android:layout_height="54dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="#673AB7"
         android:text="-"
-        app:layout_constraintStart_toEndOf="@+id/btnMas"
-        tools:layout_editor_absoluteY="633dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnMas" />
+
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="50dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="#673AB7"
+        app:icon="@drawable/arrow_back_24px"
+        app:iconGravity="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
