@@ -19,7 +19,13 @@ class MainActivity : ComponentActivity() {
                 startDestination = "login"
             ) {
                 composable(route="login") { loginView(navController) }
-                composable(route="calculadora") { calculadoraView(navController) }
+                composable("calculadora/{nombre}") { backStackEntry ->
+                    calculadoraView(
+                        navController,
+                        backStackEntry.arguments?.getString("nombre"),
+                    )
+                }
+
             }
         }
     }

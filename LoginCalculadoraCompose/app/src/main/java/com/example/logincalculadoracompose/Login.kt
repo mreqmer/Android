@@ -23,11 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
@@ -120,7 +118,7 @@ fun loginView(navController: NavHostController) {
             onClick = {
 
                 if(nombre.equals("Marta") && (password.equals("1234"))){
-                    navController.navigate("calculadora")
+                    navController.navigate("calculadora/${nombre}")
                 }else{
                     Toast.makeText(context,"Usuario o contraseña inválido", Toast.LENGTH_LONG).show()
                 }

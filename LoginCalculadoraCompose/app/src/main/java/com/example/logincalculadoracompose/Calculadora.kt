@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -31,7 +30,7 @@ import androidx.navigation.NavHostController
 @OptIn(ExperimentalMaterial3Api::class)
 
 @Composable
-fun calculadoraView(navController: NavHostController) {
+fun calculadoraView(navController: NavHostController, nombre: String?) {
     var factor1 by rememberSaveable { mutableStateOf("") }
     var factor2 by rememberSaveable { mutableStateOf("") }
     var res by rememberSaveable { mutableStateOf("0.0") }
@@ -53,7 +52,7 @@ fun calculadoraView(navController: NavHostController) {
             Text("Back")
         }
         Text(
-            text = "Bienvenido/a nombre",
+            text = "Bienvenido/a $nombre",
             modifier = Modifier.padding(bottom = 50.dp),
             fontSize = 30.sp,
             color = Color.Cyan
