@@ -1,5 +1,6 @@
-package com.example.piedrapapeltijera
+package com.example.ppt2
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,12 +19,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,33 +29,80 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.Popup
-import kotlin.random.Random
+import androidx.navigation.NavHostController
+import kotlinx.coroutines.delay
 
-@Preview
+
 @Composable
-fun juegoView() {
-
+fun juegoView(navController: NavHostController) {
+    //contexto
+    val context = LocalContext.current
+    //controla el popup
     var isDialogVisible by remember { mutableStateOf(false) }
-    var piedra = painterResource(R.drawable.piedra)
-    var papel = painterResource(R.drawable.papel)
-    var tijera = painterResource(R.drawable.tijera)
-    var incognita = painterResource(id = R.drawable.noselect)
-    //TODO Hacer que la imagen del jugador vaya dependiendo de lo que haya seleccionado
-    var imagenJugador by remember { mutableStateOf(incognita) }
-    //TODO implementar una funcion que seleccione random una opcion
-    var imagenMaquina by remember { mutableStateOf(incognita) }
+    //imagenes del jugador y de la maquina
+    var imagenJ by remember { mutableStateOf("incognita") }
+    var imagenM by remember { mutableStateOf("incognita") }
+    //puntuaciones
+    var ronda by remember { mutableStateOf(0) }
+    var puntuacionJ by remember { mutableStateOf(0) }
+    var puntuacionM by remember { mutableStateOf(0) }
+    //estado del juego
+    var finJuego by remember { mutableStateOf(false) }
+    //delay de los botones
+    var enabled by remember { mutableStateOf(true) }
 
-    var puntuacionJugador by remember { mutableStateOf(0) }
-    var puntuacionMaquina by remember { mutableStateOf(0) }
+    //se llama cada vez que se hace click en un boton de seleccion. Hace que se juegue cada ronda
+    //region Ronda
+    fun ronda(eleccionJ: String) {
+        //lista de opciones de la maquina
+        val options = listOf("piedra", "papel", "tijera")
+        //desactiva los botones durante un tiempo para que no se pueda spamear
+        enabled = false
+        //seleccion del jugador
+        imagenJ = eleccionJ
+        //coge una posicion aleatoria de la lista de opciones para la maquina y se la asigna a la maquina
+        imagenM = options.random()
+
+        //Muestra toast dependiendo de quien gano la ronda
+        if (ganadorRonda(imagenJ, imagenM) == "ganar") {
+            puntuacionJ++
+            ronda++
+            Toast.makeText(context, "Jugador ganó la ronda!", Toast.LENGTH_SHORT).show()
+        } else if (ganadorRonda(imagenJ, imagenM) == "perder") {
+            puntuacionM++
+            ronda++
+            Toast.makeText(context, "Máquina ganó la ronda!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Empate!!", Toast.LENGTH_SHORT).show()
+        }
+
+        //si se llega a 5 rondas (los empates no sumas rondas) se comprueba quien gano y se va a la
+        //pantalla correspondiente
+        if (ronda == 5) {
+            finJuego = true
+            if (puntuacionJ > puntuacionM) {
+                navController.navigate("finPartidaGanar")
+            } else {
+                navController.navigate("finPartidaPerder")
+            }
+        }
+    }
+    //endregion
+
+    //delay de los botones
+    LaunchedEffect(enabled) {
+        if (enabled) return@LaunchedEffect
+        else delay(2000)
+        enabled = true
+    }
+
+    //region interfaz
     Column(
-
         modifier = Modifier
             .fillMaxSize()
             .padding(
@@ -96,9 +141,8 @@ fun juegoView() {
             horizontalArrangement = Arrangement.Center,
         )
         {
-            //TODO implementar funcionalidad
             Text(
-                text = "${puntuacionJugador}-${puntuacionMaquina}",
+                text = "${puntuacionJ}-${puntuacionM}",
                 fontSize = 40.sp
             )
         }
@@ -112,7 +156,7 @@ fun juegoView() {
         ) {
             // Imagen del jugador
             Image(
-                painter = imagenJugador,
+                painter = painterResource(getImageResource(imagenJ)),
                 contentDescription = "Imagen jugador",
                 modifier = Modifier
                     .weight(1f)
@@ -123,7 +167,7 @@ fun juegoView() {
 
             // Imagen de la máquina
             Image(
-                painter = imagenMaquina,
+                painter = painterResource(getImageResource(imagenM)),
                 contentDescription = "Imagen máquina",
                 modifier = Modifier
                     .weight(1f)
@@ -140,39 +184,42 @@ fun juegoView() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = piedra,
+                painter = painterResource(getImageResource("piedra")),
                 contentDescription = "piedra",
                 modifier = Modifier
                     .size(60.dp)
-                    .clickable {
-                        imagenJugador = piedra
-                        imagenMaquina = piedra
+                    .clickable(enabled = enabled) {
+                        ronda("piedra")
+                        enabled = false
                     }
             )
+
             Image(
-                painter = papel,
+                painter = painterResource(getImageResource("papel")),
                 contentDescription = "papel",
                 modifier = Modifier
                     .size(60.dp)
-                    .clickable {
-                        imagenJugador = papel
-                        imagenMaquina = piedra
+                    .clickable(enabled = enabled) {
+                        ronda("papel")
+                        enabled = false
                     }
             )
             Image(
-                painter = tijera,
+                painter = painterResource(getImageResource("tijera")),
                 contentDescription = "tijera",
                 modifier = Modifier
                     .size(60.dp)
-                    .clickable {
-                        imagenJugador = tijera
-                        imagenMaquina = piedra
+                    .clickable(enabled = enabled) {
+                        ronda("tijera")
+                        enabled = false
                     }
             )
+
+
         }
     }
+    //endregion
 }
-
 //Muestra un dialog con la imagen con las reglas del juego
 @Composable
 fun AyudaDialog(onDismiss: () -> Unit) {
@@ -191,14 +238,31 @@ fun AyudaDialog(onDismiss: () -> Unit) {
     }
 }
 
-fun imagenAleatoria(): Int {
-    var num = Random.nextInt(3)
-    var imagen = when (num) {
-        0 -> R.drawable.piedra
-        1 -> R.drawable.papel
-        else -> R.drawable.tijera
+//dependiendo de la imagen que se seleccione le entra un string que devuelve la imagen correspondiente
+@Composable
+fun getImageResource(choice: String): Int {
+    var imagen = when (choice) {
+        "piedra" -> R.drawable.piedra
+        "papel" -> R.drawable.papel
+        "tijera" -> R.drawable.tijera
+        else -> R.drawable.noselect
     }
     return imagen
 }
 
+//comprueba quien ha ganado la ronda
+private fun ganadorRonda(jugador: String, maquina: String): String {
+    var res: String
+
+    if(jugador == maquina){
+        res = "empato"
+    }else if((jugador == "piedra" && maquina == "tijera") ||
+        (jugador == "papel" && maquina == "piedra") ||
+        (jugador == "tijera" && maquina == "papel")){
+        res = "ganar"
+    }else {
+        res = "perder"
+    }
+    return res
+}
 
