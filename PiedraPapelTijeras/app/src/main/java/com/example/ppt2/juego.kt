@@ -97,7 +97,7 @@ fun juegoView(navController: NavHostController) {
     //delay de los botones
     LaunchedEffect(enabled) {
         if (enabled) return@LaunchedEffect
-        else delay(2000)
+        else delay(1500)
         enabled = true
     }
 

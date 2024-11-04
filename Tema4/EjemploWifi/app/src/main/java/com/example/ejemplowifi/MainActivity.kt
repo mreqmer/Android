@@ -19,7 +19,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EjemploWifiTheme {
+                //comprueba la conectividad sin callback, comentar y cambiar por el otro
                 principalView()
+                //Descomentar el siguiente comentario para ver el wifi con el servicio callback
+                //principalView2()
             }
         }
     }
