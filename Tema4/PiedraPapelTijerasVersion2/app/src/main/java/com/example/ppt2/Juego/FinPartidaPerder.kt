@@ -11,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,6 +43,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.example.ppt2.R
 
+//vista para cuando pierde el jugador
 @Composable
 fun finPartidaPerder(navController: NavHostController, nombre: String?) {
 
@@ -129,21 +131,27 @@ fun finPartidaPerder(navController: NavHostController, nombre: String?) {
                 fontFamily = FontFamily.Monospace
             )
             OutlinedButton(
-                onClick = {navController.navigate("juego/${nombre}") },
-                modifier = Modifier.size(200.dp, 50.dp)) {
+                onClick = { navController.navigate("juego/${nombre}") },
+                modifier = Modifier
+                    .size(200.dp, 35.dp)
+            ) {
                 Text("Volver a jugar")
             }
+            Spacer(modifier = Modifier.height(8.dp))
             OutlinedButton(
-                onClick = {navController.navigate("puntuaciones/${nombre}")},
-                modifier = Modifier.size(200.dp, 50.dp)
+                onClick = { navController.navigate("puntuaciones/${nombre}") },
+                modifier = Modifier
+                    .size(200.dp, 35.dp)
             ) {
                 Text("Scores")
             }
+            Spacer(modifier = Modifier.height(8.dp))
             OutlinedButton(
-                onClick = {navController.navigate("login") },
-                modifier = Modifier.size(200.dp, 25.dp)
+                onClick = { navController.navigate("login") },
+                modifier = Modifier
+                    .size(200.dp, 35.dp)
             ) {
-                Text("Cambio de jugador")
+                Text("Cambiar jugador")
             }
 
 

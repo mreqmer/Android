@@ -43,16 +43,6 @@ fun puntuacionesView(navController: NavHostController, nombre: String?) {
     LaunchedEffect(Unit) {
         jugadores = cargaJugadores()
     }
-
-    // Mostrar la lista de jugadores
-    JugadoresList(jugadores = jugadores, nombre,  navController)
-
-    Log.d(TAG, jugadores.toString())
-}
-
-@Composable
-fun JugadoresList(jugadores: List<JugadorEntity>, nombre: String?,  navController: NavHostController) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -74,14 +64,23 @@ fun JugadoresList(jugadores: List<JugadorEntity>, nombre: String?,  navControlle
                 )
             }
         }
+        // Mostrar la lista de jugadores
+        JugadoresList(jugadores = jugadores)
+    }
+    Log.d(TAG, jugadores.toString())
+}
 
-        LazyColumn(modifier = Modifier.padding(16.dp)) {
-            items(jugadores) { jugador ->
-                JugadorItem(jugador = jugador)
-            }
+//Listado de los jugadores en un LazyView
+@Composable
+fun JugadoresList(jugadores: List<JugadorEntity>) {
+    LazyColumn(modifier = Modifier.padding(16.dp)) {
+        items(jugadores) { jugador ->
+            JugadorItem(jugador = jugador)
         }
     }
 }
+
+//Cada elemento de la lista del LazyView con los datos de la entidad Jugador
 @Composable
 fun JugadorItem(jugador: JugadorEntity) {
     Column(

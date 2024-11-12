@@ -11,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.ppt2.R
 
+//Vista para cuando gana el jugador
 @Composable
 fun finPartidaGanar(navController: NavHostController, nombre: String?) {
 
@@ -52,6 +54,7 @@ fun finPartidaGanar(navController: NavHostController, nombre: String?) {
     val mp: MediaPlayer = remember {
         MediaPlayer.create(context, R.raw.desdentaobailando)
     }
+    //musica on y en loop cuando se carga la vista
     DisposableEffect(Unit) {
         mp.isLooping = true
         mp.start()
@@ -114,7 +117,7 @@ fun finPartidaGanar(navController: NavHostController, nombre: String?) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-
+            //gif
             GifImage()
 
             Text(
@@ -128,24 +131,30 @@ fun finPartidaGanar(navController: NavHostController, nombre: String?) {
                 },
                 fontFamily = FontFamily.Monospace
             )
-
-                OutlinedButton(
-                    onClick = {navController.navigate("juego/${nombre}") },
-                    modifier = Modifier.size(200.dp, 50.dp)) {
-                    Text("Volver a jugar")
-                    }
-                OutlinedButton(
-                    onClick = {navController.navigate("puntuaciones/${nombre}")},
-                    modifier = Modifier.size(200.dp, 50.dp)
-                    ) {
-                    Text("Scores")
-                     }
-                OutlinedButton(
-                    onClick = {navController.navigate("login") },
-                    modifier = Modifier.size(200.dp, 25.dp)
-                    ) {
-                    Text("Cambio de jugador")
-                    }
+            //botones
+            OutlinedButton(
+                onClick = { navController.navigate("juego/${nombre}") },
+                modifier = Modifier
+                    .size(200.dp, 35.dp)
+            ) {
+                Text("Volver a jugar")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedButton(
+                onClick = { navController.navigate("puntuaciones/${nombre}") },
+                modifier = Modifier
+                    .size(200.dp, 35.dp)
+            ) {
+                Text("Scores")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedButton(
+                onClick = { navController.navigate("login") },
+                modifier = Modifier
+                    .size(200.dp, 35.dp)
+            ) {
+                Text("Cambiar jugador")
+            }
 
 
         }

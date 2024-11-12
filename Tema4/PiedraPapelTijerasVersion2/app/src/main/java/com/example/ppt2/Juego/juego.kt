@@ -62,7 +62,6 @@ fun juegoView(navController: NavHostController, nombre: String?) {
     var enabled by remember { mutableStateOf(true) }
 
     //se llama cada vez que se hace click en un boton de seleccion. Hace que se juegue cada ronda
-    //region Ronda
     fun ronda(eleccionJ: String) {
 
         //lista de opciones de la maquina
@@ -74,7 +73,8 @@ fun juegoView(navController: NavHostController, nombre: String?) {
         //coge una posicion aleatoria de la lista de opciones para la maquina y se la asigna a la maquina
         imagenM = options.random()
 
-        //Muestra toast dependiendo de quien gano la ronda
+        //Muestra toast dependiendo de quien gano la ronda,
+        //además si gana el jugador se le añade un incremento de rondas ganadas
         if (ganadorRonda(imagenJ, imagenM) == "ganar") {
             puntuacionJ++
             ronda++
@@ -84,10 +84,12 @@ fun juegoView(navController: NavHostController, nombre: String?) {
                 }
             }
             Toast.makeText(context, "Jugador ganó la ronda!", Toast.LENGTH_SHORT).show()
+
         } else if (ganadorRonda(imagenJ, imagenM) == "perder") {
             puntuacionM++
             ronda++
             Toast.makeText(context, "Máquina ganó la ronda!", Toast.LENGTH_SHORT).show()
+        //en el empate no hay suma de rondas ni nadie gana nada
         } else {
             Toast.makeText(context, "Empate!!", Toast.LENGTH_SHORT).show()
         }
@@ -96,25 +98,26 @@ fun juegoView(navController: NavHostController, nombre: String?) {
         //pantalla correspondiente
         if (ronda == 5) {
             finJuego = true
+            //se le hace un +1 a las partidas que ha jugado el jugador
             coroutineScope.launch {
                 if (nombre != null) {
                     basedatos.jugadorDao().incrementaPartidasJugadas(name = nombre)
                 }
             }
+            //si gana el jugador ademas se le hace +1 a las partidas ganadas y se va a la vista de ganar
             if (puntuacionJ > puntuacionM) {
                 coroutineScope.launch {
                     if (nombre != null) {
                         basedatos.jugadorDao().incrementaPartidasGanadas(name = nombre)
                     }
                 }
-
                 navController.navigate("finPartidaGanar/${nombre}")
+                //si pierde se va a la vista de perder
             } else {
                 navController.navigate("finPartidaPerder/${nombre}")
             }
         }
     }
-    //endregion
 
     //delay de los botones
     LaunchedEffect(enabled) {
@@ -242,6 +245,7 @@ fun juegoView(navController: NavHostController, nombre: String?) {
     }
     //endregion
 }
+
 //Muestra un dialog con la imagen con las reglas del juego
 @Composable
 fun AyudaDialog(onDismiss: () -> Unit) {

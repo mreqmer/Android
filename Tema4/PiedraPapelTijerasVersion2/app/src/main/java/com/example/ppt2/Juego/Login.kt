@@ -10,7 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -46,44 +50,46 @@ fun loginView(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         // Campo de texto con borde
-        TextField(
+        OutlinedTextField(
             value = nombreJ,
             onValueChange = { nombreJ = it },
-            placeholder = { Text("Nombre") },
-            modifier = Modifier
-                .border(2.dp, Color.Gray) // Borde gris
-                .fillMaxWidth()
-                .padding(16.dp)
+            label = { Text("Jugador") },
+            placeholder = { Text("Jugador") },
+            singleLine = true,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(25.dp))
         // Botón
-        Button(
+        Button (
             onClick = {
-
                 coroutineScope.launch {
+                    //mucho cuidao que esto esta solo para errores
                     //wipeo()
                     btnLogin(nombreJ.text.toString(), navController)
-
                 }
-
-
             },
-                Modifier.fillMaxWidth()
-                ) {
-                    Text("Enviar")
-                }
+            Modifier
+                .width(140.dp)
+                .height(42.dp)
+        ){
+           Text("Entrar")
+        }
 
     }
 }
 
+//Boton para entrar a la aplicacion si se ha escrito un nombre en el entry
+//crea un usuario si no existe ya uno asi y si no entra con ese
 suspend fun btnLogin(nombre: String, navController: NavController){
+    if(nombre!= "" && nombre != null ){
+        LoginJugador(nombre)
+        //navega al juego mandandole el nombre del jugador
+        navController.navigate("juego/${nombre}")
+    }
 
-    LoginJugador(nombre)
-    navController.navigate("juego/${nombre}")
 
 }
-
+//crea un usuario si no existe ya uno asi
 private suspend fun LoginJugador(nombre: String) {
     withContext(Dispatchers.IO) {
         val jugador = basedatos.jugadorDao().getJugadorByName(nombre)
@@ -97,8 +103,7 @@ private suspend fun LoginJugador(nombre: String) {
         }
     }
 }
-
-private suspend fun wipeo() {
-
-    basedatos.jugadorDao().deleteAllJugadores()
-}
+//esto es solo para errores
+//private suspend fun wipeo() {
+//    basedatos.jugadorDao().deleteAllJugadores()
+//}
