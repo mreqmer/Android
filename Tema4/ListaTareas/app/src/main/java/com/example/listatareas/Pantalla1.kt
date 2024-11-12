@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 
 /**
- * Lista TODO el any
+ * Lista
  */
 @Composable
 fun Lista(listaTareas: List<TareasEntity>, coroutineScope: CoroutineScope) {
