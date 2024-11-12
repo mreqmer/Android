@@ -96,7 +96,7 @@ private suspend fun LoginJugador(nombre: String) {
 
         if (jugador == null) {
             // Si no existe, inserta el nuevo jugador
-            val nuevoJugador = JugadorEntity(name = nombre)  // Asegúrate de que tienes el constructor adecuado
+            val nuevoJugador = JugadorEntity(name = nombre)
             basedatos.jugadorDao().insert(nuevoJugador)
 
             Log.d(TAG, nuevoJugador.name)
