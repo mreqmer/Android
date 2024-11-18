@@ -14,7 +14,7 @@ interface ContactoDao {
     @Update
     suspend fun update (contacto: ContactoEntity)
 
-    @Query("SELECT * FROM Contactos")
+    @Query("SELECT * FROM Contactos ORDER BY nombre COLLATE NOCASE")
     suspend fun getAllContactos(): List<ContactoEntity>
 
     @Query("SELECT * FROM Contactos WHERE nombre = :nombre")
