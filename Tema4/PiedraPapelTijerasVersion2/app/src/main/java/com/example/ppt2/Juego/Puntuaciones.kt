@@ -26,6 +26,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.ppt2.Juego.MainActivity.Companion.basedatos
@@ -59,30 +60,32 @@ fun puntuacionesView(navController: NavHostController, nombre: String?) {
         ) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back"
                 )
             }
         }
         // Mostrar la lista de jugadores
-        JugadoresList(jugadores = jugadores)
+        JugadoresList(jugadores, nombre)
     }
     Log.d(TAG, jugadores.toString())
+    Log.d(TAG, "HOLAAAAA")
 }
 
 //Listado de los jugadores en un LazyView
 @Composable
-fun JugadoresList(jugadores: List<JugadorEntity>) {
+fun JugadoresList(jugadores: List<JugadorEntity>, nombre:String?) {
     LazyColumn(modifier = Modifier.padding(16.dp)) {
         items(jugadores) { jugador ->
-            JugadorItem(jugador = jugador)
+            JugadorItem(jugador, nombre)
         }
     }
 }
 
 //Cada elemento de la lista del LazyView con los datos de la entidad Jugador
 @Composable
-fun JugadorItem(jugador: JugadorEntity) {
+fun JugadorItem(jugador: JugadorEntity, nombre: String?) {
+    val isBold = jugador.name == nombre
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -90,10 +93,10 @@ fun JugadorItem(jugador: JugadorEntity) {
             .border(1.dp, Color.Gray),
         horizontalAlignment = Alignment.Start
     ) {
-        Text(text = "Nombre: ${jugador.name}")
-        Text(text = "Jugadas: ${jugador.jugadas}")
-        Text(text = "Ganadas: ${jugador.ganadas}")
-        Text(text = "Rondas Ganadas: ${jugador.rondasGanadas}")
+        Text(text = "Nombre: ${jugador.name}",fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal)
+        Text(text = "Jugadas: ${jugador.jugadas}",fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal)
+        Text(text = "Ganadas: ${jugador.ganadas}",fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal)
+        Text(text = "Rondas Ganadas: ${jugador.rondasGanadas}", fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal)
     }
 }
 
