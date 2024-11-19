@@ -41,27 +41,27 @@ import com.example.contactosroom.dal.ContactoEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+//Vista con el listado de los distintos contactos
 @Composable
 fun ContactoView(navController: NavHostController) {
     var contactos by remember { mutableStateOf<List<ContactoEntity>>(emptyList()) }
     LaunchedEffect(Unit) {
         contactos = cargaContactos()
     }
-
-    // Envolver el contenido en un Box
+    //con el box se contiene la aplicacion para poder poner el boton flotante abajo derecha
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(WindowInsets.systemBars.asPaddingValues()) // Respetar las barras del sistema
+            .padding(WindowInsets.systemBars.asPaddingValues())
     ) {
-        // Contenido principal
+        // Contenido de la agenta
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
+            //listado contactos
             ItemList(contactos)
         }
-
-
+        //boton flotante para ir a la pantalla de nuevo contacto
         FloatingActionButton(
             onClick = {  navController.navigate("addContactoView") },
             modifier = Modifier
@@ -70,6 +70,7 @@ fun ContactoView(navController: NavHostController) {
                 .wrapContentHeight(Alignment.Bottom)
                 .padding(16.dp)
         ) {
+            //icono del boton
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Añadir contacto"
@@ -78,6 +79,7 @@ fun ContactoView(navController: NavHostController) {
     }
 }
 
+//LazyColumn
 @Composable
 fun ItemList(itemContacto: List<ContactoEntity>) {
     LazyColumn {
@@ -87,10 +89,12 @@ fun ItemList(itemContacto: List<ContactoEntity>) {
     }
 }
 
+//contenido de cada parte del listado de contactos
 @Composable
 fun ContactoCarta(contacto: ContactoEntity) {
 
     var foto = contacto.imagen
+
 
     Card(
             modifier = Modifier.fillMaxWidth(),
@@ -100,12 +104,14 @@ fun ContactoCarta(contacto: ContactoEntity) {
     ) {
         Row {
             Column {
+                //foto perfil
                 Image(
                     painter = painterResource(devuelveFoto(foto)),
                     contentDescription = "Foto contacto",
                     Modifier.height(100.dp)
                 )
             }
+            //datos del contacto
             Column {
                 Text(
                     text = contacto.nombre,
@@ -121,6 +127,7 @@ fun ContactoCarta(contacto: ContactoEntity) {
         }
     }
 }
+//devuelve el id de una foto a partir de un string para las fotos de perfil
 @Composable
 fun devuelveFoto(choice: String): Int{
     var imagen = when (choice) {
@@ -133,6 +140,7 @@ fun devuelveFoto(choice: String): Int{
     return imagen
 }
 
+//carga una lista de contactos de la base de datos
 suspend fun cargaContactos(): List<ContactoEntity> {
     return withContext(Dispatchers.IO) {
         // Cargar los contactos desde la base de datos

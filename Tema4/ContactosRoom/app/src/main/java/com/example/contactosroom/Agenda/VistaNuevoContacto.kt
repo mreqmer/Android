@@ -1,5 +1,7 @@
 package com.example.contactosroom.Agenda
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -37,23 +40,26 @@ import androidx.navigation.NavHostController
 import com.example.contactosroom.Agenda.MainActivity.Companion.basedatos
 import com.example.contactosroom.R
 import com.example.contactosroom.dal.ContactoEntity
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+//Vista para agregar un nuevo contacto
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgregarContactoView(navController: NavHostController) {
+    //datos del contacto
     var nombre by remember { mutableStateOf("") }
     var telefono by remember { mutableStateOf("") }
     var avatarSeleccionado by remember { mutableStateOf("imgdefault") }
+    val context = LocalContext.current
+    //variable para el dropdown menu
     var expandido by remember { mutableStateOf(false) }
-
+    //corrutina para la BD
     val coroutineScope = rememberCoroutineScope()
     // Lista de avatares disponibles
     val avatares = listOf("imgdefault", "amarillo", "rosa", "pibemoreno", "pibepelirrojo")
 
-    var nuevoContacto : ContactoEntity;
 
-    // Contenedor principal
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +67,7 @@ fun AgregarContactoView(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Avatar
+        // Marco para el avatar
         Box(
             modifier = Modifier
                 .size(100.dp)
@@ -69,9 +75,9 @@ fun AgregarContactoView(navController: NavHostController) {
                 .background(Color.Gray),
             contentAlignment = Alignment.Center
         ) {
-            // Aquí puedes mostrar un ícono o imagen dependiendo de la selección
+            // Imagen dentro del marco
             Image(
-                painter = painterResource(id = getAvatarResource(avatarSeleccionado)),
+                painter = painterResource(id = getFotoPerfil(avatarSeleccionado)),
                 contentDescription = "Avatar",
                 modifier = Modifier.fillMaxSize()
             )
@@ -82,8 +88,9 @@ fun AgregarContactoView(navController: NavHostController) {
         // Selector de avatar
         ExposedDropdownMenuBox(
             expanded = expandido,
-            onExpandedChange = { expandido = !expandido }
-        ) {
+            onExpandedChange = { expandido = !expandido },
+
+            ) {
             OutlinedTextField(
                 value = avatarSeleccionado,
                 onValueChange = { },
@@ -95,6 +102,7 @@ fun AgregarContactoView(navController: NavHostController) {
                     .menuAnchor()
             )
 
+            //logica del menu
             ExposedDropdownMenu(
                 expanded = expandido,
                 onDismissRequest = { expandido = false }
@@ -105,7 +113,8 @@ fun AgregarContactoView(navController: NavHostController) {
                         onClick = {
                             avatarSeleccionado = avatar
                             expandido = false
-                        }
+                        },
+                        modifier = Modifier.background(Color(0xFFF2F0EF))
                     )
                 }
             }
@@ -137,15 +146,9 @@ fun AgregarContactoView(navController: NavHostController) {
         // Botón para guardar el contacto (puedes agregar la lógica aquí)
         Button(
             onClick = {
-                nuevoContacto = ContactoEntity(
-                    nombre = nombre,
-                    telefono = telefono,
-                    imagen = avatarSeleccionado
-                )
                 coroutineScope.launch {
-                    basedatos.contactoDao().insert(nuevoContacto)
+                    btnGuardaContacto(nombre, telefono, avatarSeleccionado, context, navController);
                 }
-                navController.navigate("contactoView")
 
             },
             modifier = Modifier.fillMaxWidth()
@@ -154,13 +157,42 @@ fun AgregarContactoView(navController: NavHostController) {
         }
     }
 }
-// Función para obtener el recurso de la imagen según el nombre del avatar
-fun getAvatarResource(avatar: String): Int {
+
+//devuelve el id de una foto a partir de un string para las fotos de perfil
+fun getFotoPerfil(avatar: String): Int {
     return when (avatar) {
         "amarillo" -> R.drawable.amarillo
         "rosa" -> R.drawable.rosa
         "pibemoreno" -> R.drawable.pibemoreno
         "pibepelirrojo" -> R.drawable.pibepelirrojo
         else -> R.drawable.imgdefault
+    }
+}
+
+//boton que que comprueba que los campos no esten vacios, además si estan rellenos crea el
+// objeto contacto y le hace el insert
+suspend fun btnGuardaContacto(
+    nombre: String,
+    telefono: String,
+    avatarSeleccionado: String,
+    context: Context,
+    navController: NavHostController
+) {
+    //objeto Contacto
+    var nuevoContacto: ContactoEntity;
+
+    if (nombre != "" && telefono != "") {
+        nuevoContacto = ContactoEntity(
+            nombre = nombre,
+            telefono = telefono,
+            imagen = avatarSeleccionado
+        )
+        basedatos.contactoDao().insert(nuevoContacto)
+        navController.navigate("ContactoView")
+    //toast para la informacion del usuario
+    } else if (nombre == "") {
+        Toast.makeText(context, "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show()
+    } else if (telefono == "") {
+        Toast.makeText(context, "El telefono no puede estar vacío", Toast.LENGTH_SHORT).show()
     }
 }
