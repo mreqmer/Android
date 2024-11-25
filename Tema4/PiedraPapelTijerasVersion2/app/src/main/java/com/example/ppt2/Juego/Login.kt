@@ -42,6 +42,7 @@ fun loginView(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     var nombreJ by remember { mutableStateOf(TextFieldValue("")) }
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
