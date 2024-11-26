@@ -1,0 +1,84 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "fbdbddfeaf1551a7f8f4f98fb799d076",
+    "entities": [
+      {
+        "tableName": "tClientes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idCliente` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `salaElegida` INTEGER NOT NULL, `palomitas` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "idCliente",
+            "columnName": "idCliente",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "salaElegida",
+            "columnName": "salaElegida",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "palomitas",
+            "columnName": "palomitas",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "idCliente"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tConfiguracion",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idConfiguracion` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `numSalas` INTEGER NOT NULL, `numAsientos` INTEGER NOT NULL, `precioPalomitas` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "idConfiguracion",
+            "columnName": "idConfiguracion",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "numSalas",
+            "columnName": "numSalas",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "numAsientos",
+            "columnName": "numAsientos",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precioPalomitas",
+            "columnName": "precioPalomitas",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "idConfiguracion"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fbdbddfeaf1551a7f8f4f98fb799d076')"
+    ]
+  }
+}
