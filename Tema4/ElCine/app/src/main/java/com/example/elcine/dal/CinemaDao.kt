@@ -1,6 +1,7 @@
 package com.example.elcine.dal
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -20,6 +21,9 @@ interface CinemaDao {
     @Update
     suspend fun update (configuracion: ConfiguracionEntity)
 
+    @Query("DELETE FROM tClientes")
+    suspend fun deleteClientes()
+
     @Query("SELECT * FROM tClientes")
     suspend fun getAllClientes(): List<ClienteEntity>
 
@@ -30,8 +34,12 @@ interface CinemaDao {
     suspend fun  getCliente(idCliente: Long): ClienteEntity?
 
 //    @Query("SELECT numSalas FROM tConfiguracion WHERE idConfiguracion = :idConfiguracion")
-//    suspend fun  getNumeroSalas(idCliente: Long): ClienteEntity?
+//    suspend fun  getNumeroSalas(idCliente: Long): ClienteEntity
 
     @Query("Select * FROM tConfiguracion WHERE idConfiguracion = :idConfiguracion")
     suspend fun  getConfiguracion(idConfiguracion: Long): ConfiguracionEntity?
+    @Query("SELECT idConfiguracion FROM tConfiguracion ORDER BY idConfiguracion DESC LIMIT 1")
+    suspend fun getLastConfiguracion() : Long
+
+
 }
